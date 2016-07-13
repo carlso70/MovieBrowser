@@ -26,6 +26,6 @@ dependencies {
 
     // Picasso- remote image loading for movie posters
     compile 'com.squareup.picasso:picasso:2.5.2'
-    // android-async-http for sending asynchronous network requests 
+    // android-async-http for sending asynchronous network requests
     compile 'com.loopj.android:android-async-http:1.4.6'
 }
