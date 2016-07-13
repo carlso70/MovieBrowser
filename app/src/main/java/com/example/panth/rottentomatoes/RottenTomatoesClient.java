@@ -7,6 +7,8 @@ import com.loopj.android.http.RequestParams;
 /**
  * Created by Jimmy Carlson on 7/12/2016.
  */
+
+// The api client
 public class RottenTomatoesClient {
     private final String API_KEY = "...getkey...";
     private final String API_BASE_URL = "http://api.rottentomatoes.com/api/public/v1.0/";
