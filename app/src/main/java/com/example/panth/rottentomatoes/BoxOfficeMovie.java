@@ -6,6 +6,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.jar.Pack200;
 
@@ -14,10 +15,14 @@ import java.util.jar.Pack200;
  */
 
 // Base data model
-public class BoxOfficeMovie {
+public class BoxOfficeMovie implements Serializable {
+    private static final long serialVersionUID = -8959832007991513854L;
     private String synopsis;
     private String posterURL;
     private String title;
+    private String largePosterUrl;
+    private String criticsConsensus;
+    private int audienceScore;
     private int criticScore;
     private int year;
     private ArrayList<String> castList;
@@ -58,17 +63,23 @@ public class BoxOfficeMovie {
     {
         BoxOfficeMovie boxOfficeMovie = new BoxOfficeMovie();
         try {
+            boxOfficeMovie.largePosterUrl = jsonObject.getJSONObject("posters").getString("detailed");
+            boxOfficeMovie.criticsConsensus = jsonObject.getString("critics_consensus");
+            boxOfficeMovie.audienceScore = jsonObject.getJSONObject("ratings").getInt("audience_score");
             boxOfficeMovie.title = jsonObject.getString("title");
             boxOfficeMovie.year = jsonObject.getInt("year");
             boxOfficeMovie.synopsis = jsonObject.getString("synopsis");
             boxOfficeMovie.posterURL = jsonObject.getJSONObject("posters").getString("thumbnail");
             boxOfficeMovie.criticScore = jsonObject.getJSONObject("ratings").getInt("critics_score");
+
             boxOfficeMovie.castList = new ArrayList<String>();
             JSONArray abridgedCast = jsonObject.getJSONArray("abridged_cast");
             for (int i = 0; i < abridgedCast.length(); i++)
             {
                 boxOfficeMovie.castList.add(abridgedCast.getJSONObject(i).getString("name"));
             }
+
+
         }catch (JSONException e)
         {
             e.printStackTrace();
@@ -103,4 +114,15 @@ public class BoxOfficeMovie {
         return movies;
     }
 
+    public String getLargePosterUrl() {
+        return largePosterUrl;
+    }
+
+    public String getCriticsConsensus() {
+        return criticsConsensus;
+    }
+
+    public int getAudienceScore() {
+        return audienceScore;
+    }
 }

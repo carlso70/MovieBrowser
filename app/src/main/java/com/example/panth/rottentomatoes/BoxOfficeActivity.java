@@ -1,8 +1,11 @@
 package com.example.panth.rottentomatoes;
 
+import android.content.Intent;
 import android.preference.PreferenceActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -18,6 +21,7 @@ public class BoxOfficeActivity extends AppCompatActivity {
     RottenTomatoesClient client;
     private ListView lvMovies;
     private BoxOfficeMovieAdapter movieAdapter;
+    public static final String MOVIE_DETAIL_KEY = "movie";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +35,7 @@ public class BoxOfficeActivity extends AppCompatActivity {
 
         // Fetch the data remotely
         fetchBoxOfficeMovies();
+        setupMovieSelectedListener();
     }
 
     // Executes an API call to the BoxOfficeEndpoint
@@ -59,6 +64,18 @@ public class BoxOfficeActivity extends AppCompatActivity {
                 }
             }
 
+        });
+    }
+
+    public void setupMovieSelectedListener() {
+        lvMovies.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                // launch the detail view passing movie as an extra
+                Intent intent = new Intent(BoxOfficeActivity.this, BoxOfficeDetailActivity.class);
+                intent.putExtra(MOVIE_DETAIL_KEY, movieAdapter.getItem(position));
+                startActivity(intent);
+            }
         });
     }
 }
